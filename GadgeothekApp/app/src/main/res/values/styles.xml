@@ -1,0 +1,11 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+
+    <style name="toolbarStyle" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">40dp</item>
+    </style>
+
+</resources>
