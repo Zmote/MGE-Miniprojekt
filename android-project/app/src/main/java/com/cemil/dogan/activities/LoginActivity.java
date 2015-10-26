@@ -29,21 +29,19 @@ public class LoginActivity extends AppCompatActivity {
     Button _loginButton;
     TextView _signupLink ;
     String _name ;
+    Button _resetServerButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        LibraryService.setServerAddress("http://mge2.dev.ifs.hsr.ch/public");
-
-
-
        _emailText  =  (EditText) findViewById(R.id.input_email)  ;
        _passwordText = (EditText) findViewById(R.id.input_password );
        _loginButton = (Button)  findViewById( R.id.btn_login );
        _signupLink = (TextView)  findViewById(R.id.link_signup) ;
-
+       _resetServerButton = (Button) findViewById(R.id.resetServer);
+       _resetServerButton.setVisibility(View.GONE);
 
 
         Bundle extras = getIntent().getExtras();
@@ -58,6 +56,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 login();
+            }
+        });
+        _resetServerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetServer();
             }
         });
 
@@ -85,12 +89,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage("Authentifiziere...");
         progressDialog.show();
 
         String email = _emailText.getText().toString();
@@ -100,21 +105,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCompletion(Boolean result) {
 
-                if(result){
+                if (result) {
                     // On complete call either onLoginSuccess or onLoginFailed
                     _loginButton.setEnabled(true);
                     // onLoginFailed();
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Login is successfull", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), "Login war erfolgreich", Toast.LENGTH_LONG).show();
                     Intent intent;
                     intent = new Intent(getBaseContext(), AdminActivity.class);
                     intent.putExtra("email", _emailText.getText().toString());
                     intent.putExtra("name", _name);
                     startActivity(intent);
-                }
-
-                else{
-                    Toast.makeText(getBaseContext(), "Login is not successfull", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "Login fehlgeschlagen", Toast.LENGTH_LONG).show();
                     _loginButton.setEnabled(true);
                     // onLoginFailed();
                     progressDialog.dismiss();
@@ -126,12 +129,13 @@ public class LoginActivity extends AppCompatActivity {
             public void onError(String message) {
 
                 onLoginFailed();
+                progressDialog.dismiss();
             }
         });
+    }
 
-
-
-
+    public void resetServer(){
+        LibraryService.setServerAddress("http://mge2.dev.ifs.hsr.ch/public");
     }
 
 
@@ -156,9 +160,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getBaseContext(), "Login fehlgeschlagen", Toast.LENGTH_LONG).show();
         _loginButton.setEnabled(true);
+        _resetServerButton.setVisibility(View.VISIBLE);
     }
 
     public boolean validate() {
@@ -168,14 +172,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("keine gültige E-Mail Adresse");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("zwischen 4 und 10 alphanumerische Zeichen erwartet");
             valid = false;
         } else {
             _passwordText.setError(null);

@@ -3,7 +3,6 @@ package com.cemil.dogan.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.util.Stack;
+
 import domain.Gadget;
 import domain.Loan;
-import domain.Reservation;
+import fragments.BibliothekFragment;
 import fragments.GadgetFragment;
 import fragments.AusleihenDetailFragment;
 import fragments.AusleihenFragment;
@@ -29,14 +30,16 @@ import service.LibraryService;
 
 
 public class AdminActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,ItemClickListener  {
+        implements NavigationView.OnNavigationItemSelectedListener,ItemClickListener,IToolbarSetter  {
 
     private DrawerLayout drawer;
     private View content;
     private String header_email;
     private String header_name;
     private Toolbar toolbar;
-    private GadgetFragment gadgetFragment;
+    enum Pages{Gadgets, Ausleihen, Reservationen, Bibliothek,DETAIL, AUSLEIHDETAIL}
+    private Gadget thisGadget;
+    public static Stack<Pages> pages = new Stack();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +57,10 @@ public class AdminActivity extends AppCompatActivity
         }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //populates hamburger menu
         toolbar.setTitle("Gadgets");
+        //populates hamburger menu
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_black_24dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_dehaze_white_24dp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //gets the menu element, menu element has header and menu parts...
@@ -67,27 +70,9 @@ public class AdminActivity extends AppCompatActivity
 
         //getFragmentManager().beginTransaction().replace(R.id.content, new GadgetFragment()).commit();
 
-        gadgetFragment = new GadgetFragment();
-        getFragmentManager().beginTransaction().replace(R.id.content,gadgetFragment).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content,new GadgetFragment()).addToBackStack(null).commit();
+        pages.push(Pages.Gadgets);
 
-    }
-
-    @Override
-    public void onStart(){
-        super.onStart();
-        toolbar.setTitle("Gadgets");
-    }
-
-
-    private void mkSnack() {
-        Snackbar snackbar = Snackbar.make(content, "Hello MGE!", Snackbar.LENGTH_LONG);
-        snackbar.setAction("Do it again!", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mkSnack();
-            }
-        });
-        snackbar.show();
     }
 
     @Override
@@ -138,28 +123,40 @@ public class AdminActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-
         switch (menuItem.getItemId()){
             case R.id.drawerHome :
+                pages.push(Pages.Gadgets);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.content, new GadgetFragment())
+                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.loans :
+                pages.push(Pages.Ausleihen);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.content, new AusleihenFragment())
+                        .addToBackStack(null)
                         .commit();
                     break;
             case R.id.reservationen:
+                pages.push(Pages.Reservationen);
                 getFragmentManager()
                         .beginTransaction()
                         .replace(R.id.content, new ReservationFragment())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case R.id.bibliothek:
+                pages.push(Pages.Bibliothek);
+                getFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content, new BibliothekFragment())
+                        .addToBackStack(null)
                         .commit();
                 break;
         }
-        mkSnack();
         menuItem.setChecked(true);
         drawer.closeDrawers();
         return true;
@@ -167,12 +164,14 @@ public class AdminActivity extends AppCompatActivity
 
     @Override
     public void onItemClicked(Loan currentLoan) {
-        toolbar.setTitle(currentLoan.getGadget().getName());
+        thisGadget = currentLoan.getGadget();
+        toolbar.setTitle(thisGadget.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle args = new Bundle();
         args.putSerializable("ausleihen", currentLoan);
         AusleihenDetailFragment detailsFragment = new AusleihenDetailFragment();
         detailsFragment.setArguments(args);
+        pages.push(Pages.AUSLEIHDETAIL);
         getFragmentManager().beginTransaction().replace(R.id.content, detailsFragment)
                 .addToBackStack(null).commit();
     }
@@ -181,18 +180,40 @@ public class AdminActivity extends AppCompatActivity
 
     @Override
     public void onItemClicked(Gadget currentGadget) {
-        toolbar.setTitle(currentGadget.getName());
+        thisGadget = currentGadget;
+        toolbar.setTitle(thisGadget.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle args = new Bundle();
         args.putSerializable("gadget", currentGadget);
         DetailsFragment detailsFragment = new DetailsFragment();
         detailsFragment.setArguments(args);
+        pages.push(Pages.DETAIL);
         getFragmentManager().beginTransaction().replace(R.id.content, detailsFragment)
                 .addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(getFragmentManager().getBackStackEntryCount() <= 1){
+            finish();
+        }else{
+            getFragmentManager().popBackStack();
+        }
+
     }
 
     @Override
     public void setTitle(String title) {
         toolbar.setTitle(title);
     }
+
+    @Override
+    public void initiateActivity(Class a) {
+        final Class currentClass = a;
+        final AppCompatActivity thisActivity = this;
+        startActivity(new Intent(thisActivity, currentClass));
+
+    }
+
 }

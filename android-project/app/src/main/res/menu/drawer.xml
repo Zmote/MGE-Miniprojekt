@@ -16,7 +16,7 @@
             android:title="@string/reservationen" />
 
         <item
-            android:id="@+id/drawerPlugins"
+            android:id="@+id/bibliothek"
             android:title="@string/bibliothek" />
 
     </group>

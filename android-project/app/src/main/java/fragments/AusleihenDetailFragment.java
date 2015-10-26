@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cemil.dogan.activities.IToolbarSetter;
 import com.cemil.dogan.activities.R;
 
 import java.text.DateFormat;
@@ -28,18 +29,16 @@ public class AusleihenDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.ausleihen_fragment_details,container,false);
-        TextView priceHeader = (TextView) root.findViewById(R.id.priceText);
-        TextView priceContent = (TextView) root.findViewById(R.id.priceLarge);
-        TextView manufacturerHeader = (TextView) root.findViewById(R.id.manufacturer);
+        TextView priceContent = (TextView) root.findViewById(R.id.priceLarge);;
         TextView manufacturerContent = (TextView) root.findViewById(R.id.manufacturerText);
-        TextView stateHeader = (TextView) root.findViewById(R.id.state);
         TextView stateContent = (TextView) root.findViewById(R.id.stateText);
-        TextView availabilityHeader = (TextView) root.findViewById(R.id.availability);
         final TextView availabilityContent = (TextView) root.findViewById(R.id.availabilityText);
 
         Bundle args = getArguments();
         final Loan thisLoan = (Loan) args.getSerializable("ausleihen");
         priceContent.setText(thisLoan.getGadget().getPrice() + ".-");
+        IToolbarSetter toolbar = (IToolbarSetter) getActivity();
+        toolbar.setTitle(thisLoan.getGadget().getName());
         manufacturerContent.setText(thisLoan.getGadget().getManufacturer());
         stateContent.setText(thisLoan.getGadget().getCondition().name());
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");

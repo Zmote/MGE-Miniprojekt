@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.cemil.dogan.activities.LoginActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name="com.cemil.dogan.activities.SignupActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name="com.cemil.dogan.activities.AdminActivity" android:theme="@style/AppTheme.Dark" />
+        <activity android:name="com.cemil.dogan.activities.LoginActivity" android:theme="@style/AppTheme.Dark" android:screenOrientation="portrait" />
+        <activity android:name="com.cemil.dogan.activities.SignupActivity" android:theme="@style/AppTheme.Dark" android:screenOrientation="portrait" />
+        <activity android:name="com.cemil.dogan.activities.AdminActivity" android:theme="@style/AppTheme.Dark" android:screenOrientation="portrait" />
     </application>
 
 </manifest>

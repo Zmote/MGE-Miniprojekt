@@ -3,44 +3,73 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/recyclerCol"
+    android:background="?attr/selectableItemBackground"
     android:weightSum="1"
-    android:background="@color/white"
     android:baselineAligned="true">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="PhoneNAME"
-            android:id="@+id/textView"
-            android:paddingLeft="30sp"
-            android:paddingTop="10sp"
-            android:paddingBottom="10sp"
-            android:textSize="20sp"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:id="@+id/price"
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="60dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/smartphone"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignBottom="@+id/textView"
-            android:textSize="20sp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:paddingRight="30sp"
-            android:paddingTop="10sp"
-            android:paddingBottom="10sp"
-            android:textColor="@color/black"/>
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="PhoneNAME"
+                android:id="@+id/textView"
+                android:paddingLeft="8dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price"
+                android:id="@+id/price"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/textView"
+                android:textSize="20sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingRight="24dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/black"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignBottom="@+id/textView"
+        android:background="@color/primary"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:id="@+id/frameLayout"></FrameLayout>
 
 </LinearLayout>

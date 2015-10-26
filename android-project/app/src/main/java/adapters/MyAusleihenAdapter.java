@@ -28,9 +28,6 @@ public class MyAusleihenAdapter extends RecyclerView.Adapter<ViewHolder>{
     private ItemClickListener mListener;
     private List<Loan> LoanList;
 
-    public MyAusleihenAdapter(ItemClickListener context){
-        mListener = context;
-    }
     public MyAusleihenAdapter(ItemClickListener context, List<Loan> LoanList){
         mListener = context;
         this.LoanList = LoanList;

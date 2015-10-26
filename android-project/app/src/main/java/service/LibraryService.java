@@ -19,8 +19,10 @@ public class LibraryService {
     private static final String TAG = LibraryService.class.getSimpleName();
     private static LoginToken token;
     private static String serverUrl;
+    private static String previousServerUrl;
 
     public static void setServerAddress(String address) {
+        previousServerUrl = serverUrl;
         Log.d(TAG, "Setting server to " + address);
         serverUrl = address;
     }
@@ -211,6 +213,10 @@ public class LibraryService {
 
     static Gson createGsonObject() {
         return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+    }
+
+    public static String getPerviousServerUrl(){
+        return previousServerUrl;
     }
 
 

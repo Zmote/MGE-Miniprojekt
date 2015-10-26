@@ -22,9 +22,6 @@ public class ReservationAdapter extends RecyclerView.Adapter<ViewHolder>{
     private ItemClickListener mListener;
     private List<Reservation> rList;
 
-    public ReservationAdapter(ItemClickListener context){
-        mListener = context;
-    }
     public ReservationAdapter(ItemClickListener context, List<Reservation> rList){
         mListener = context;
         this.rList = rList;

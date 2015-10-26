@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cemil.dogan.activities.DividerItemDecoration;
+import com.cemil.dogan.activities.IToolbarSetter;
 import com.cemil.dogan.activities.ItemClickListener;
 import com.cemil.dogan.activities.R;
 
@@ -30,15 +31,16 @@ public class AusleihenFragment extends Fragment {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ItemClickListener mListener;
-    private List<Gadget> myReservations = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        IToolbarSetter toolbar = (IToolbarSetter) getActivity();
+        toolbar.setTitle("Ausleihen");
+
         final View root = inflater.inflate(R.layout.fragment_ausleihen,container,false);
 
         mListener = (ItemClickListener)getActivity();
-        mListener.setTitle("Loans");
         LibraryService.getLoansForCustomer(new Callback<List<Loan>>() {
             @Override
             public void onCompletion(List<Loan> input) {

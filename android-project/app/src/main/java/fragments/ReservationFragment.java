@@ -1,7 +1,9 @@
 package fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.cemil.dogan.activities.DividerItemDecoration;
+import com.cemil.dogan.activities.IToolbarSetter;
 import com.cemil.dogan.activities.ItemClickListener;
 import com.cemil.dogan.activities.R;
 
@@ -28,13 +31,12 @@ import service.LibraryService;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReservationFragment extends Fragment implements ItemClickListener {
+public class ReservationFragment extends Fragment {
     private ReservationAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ItemClickListener mListener;
     private List<Gadget> myGadgets = new ArrayList<>();
-    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public ReservationFragment() {
@@ -45,6 +47,8 @@ public class ReservationFragment extends Fragment implements ItemClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        IToolbarSetter toolbar = (IToolbarSetter) getActivity();
+        toolbar.setTitle("Reservationen");
         final View root = inflater.inflate(R.layout.fragment_reservation, container, false);
         LibraryService.getReservationsForCustomer(new Callback<List<Reservation>>() {
             @Override
@@ -74,19 +78,15 @@ public class ReservationFragment extends Fragment implements ItemClickListener {
         return root;
     }
 
-
     @Override
-    public void onItemClicked(Gadget currentGadget) {
-
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mListener = (ItemClickListener) activity;
     }
 
     @Override
-    public void setTitle(String title) {
-
-    }
-
-    @Override
-    public void onItemClicked(Loan currentReservation) {
-
+    public void onAttach(Context activity){
+        super.onAttach(activity);
+        mListener = (ItemClickListener) activity;
     }
 }

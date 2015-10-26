@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cemil.dogan.activities.DividerItemDecoration;
+import com.cemil.dogan.activities.IToolbarSetter;
 import com.cemil.dogan.activities.ItemClickListener;
 import com.cemil.dogan.activities.R;
 
@@ -43,6 +43,8 @@ public class GadgetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        IToolbarSetter toolbar = (IToolbarSetter) getActivity();
+        toolbar.setTitle("Gadgets");
         final View root = inflater.inflate(R.layout.fragment_gadgets,container,false);
         LibraryService.getGadgets(new Callback<List<Gadget>>() {
             @Override
@@ -57,8 +59,6 @@ public class GadgetFragment extends Fragment {
                 recyclerView = (RecyclerView) root.findViewById(R.id.view);
                 linearLayoutManager = new LinearLayoutManager(getActivity());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                recyclerView.addItemDecoration(
-                        new DividerItemDecoration(getActivity(),null));
                 recyclerView.setAdapter(adapter);
                 recyclerView.setHasFixedSize(true);
             }

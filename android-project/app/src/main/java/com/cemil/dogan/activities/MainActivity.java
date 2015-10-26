@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import service.LibraryService;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LibraryService.setServerAddress("http://mge2.dev.ifs.hsr.ch/public");
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

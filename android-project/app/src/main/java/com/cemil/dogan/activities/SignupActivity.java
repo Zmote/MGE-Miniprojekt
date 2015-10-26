@@ -69,7 +69,7 @@ public class SignupActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
         R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage("Erzeuge Konto...");
         progressDialog.show();
 
         String name = _nameText.getText().toString();
@@ -82,7 +82,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onCompletion(Boolean result) {
 
-                Toast.makeText(getBaseContext(), "Register is successfull", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Registrierung erfolgreich!", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
                 intent.putExtra("email", _emailText.getText().toString());
@@ -96,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
 
-                Toast.makeText(getBaseContext(), "Could not be registered", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "Registrierung fehlgeschlagen!", Toast.LENGTH_LONG).show();
                 progressDialog.dismiss();
             }
         });
@@ -110,7 +110,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Registrierung fehlgeschlagen!", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -124,28 +124,28 @@ public class SignupActivity extends AppCompatActivity {
         String matrikel = _matrikel.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError("mind. 3 Zeichen");
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("keine gültige E-Mail Adresse");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("zwischen 4 und 10 alphanumerische Zeichen");
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
         if (matrikel.isEmpty() || matrikel.length() < 2 || matrikel.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("zwischen 2 und 10 alphanumerische Zeichen");
             valid = false;
         } else {
             _matrikel.setError(null);

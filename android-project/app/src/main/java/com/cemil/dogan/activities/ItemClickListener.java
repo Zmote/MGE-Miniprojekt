@@ -5,12 +5,15 @@ package com.cemil.dogan.activities;
  */
 
 
+ import android.support.v7.app.AppCompatActivity;
+ import android.view.View;
+
  import domain.Gadget;
  import domain.Loan;
  import domain.Reservation;
 
 public interface ItemClickListener {
     void onItemClicked(Gadget currentGadget);
-    void setTitle (String title);
+    void initiateActivity (Class a);
     void onItemClicked(Loan currentReservation);
 }
